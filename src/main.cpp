@@ -27,14 +27,15 @@ int main(int argc, char const *argv[])
         return READER_ERROR::OPEN_FILE;
     }
 
-    struct pcap_pkthdr* header;
+    pcap_pkthdr* header;
     const u_char* packet;
 
     int result = pcap_next_ex(handle, &header, &packet);
     if (result == PCAP_ERROR) {
         std::cerr << "error" << std::endl;
         return READER_ERROR::READ_FILE;
-    } else if (result == PCAP_ERROR_BREAK) {
+    }
+    if (result == PCAP_ERROR_BREAK) {
         std::cout << "stop" << std::endl;
     }
 
