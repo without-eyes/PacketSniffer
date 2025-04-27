@@ -19,6 +19,8 @@ public:
 
     void setPcapFile(const std::string &pcapFileName);
 
+    void readPacket();
+
 private:
     pcap_t* handle;
     pcap_pkthdr* header;
