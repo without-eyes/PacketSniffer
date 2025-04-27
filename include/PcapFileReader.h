@@ -8,6 +8,7 @@
 #ifndef PCAPFILEREADER_H
 #define PCAPFILEREADER_H
 
+#include <string>
 #include <pcap/pcap.h>
 
 class PcapFileReader {
@@ -15,6 +16,8 @@ public:
     PcapFileReader();
 
     ~PcapFileReader();
+
+    void setPcapFile(const std::string &pcapFileName);
 
 private:
     pcap_t* handle;
