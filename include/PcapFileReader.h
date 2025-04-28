@@ -21,6 +21,8 @@ public:
 
     void readPacket();
 
+    void printPacketInfo() const;
+
 private:
     pcap_t* handle;
     pcap_pkthdr* header;

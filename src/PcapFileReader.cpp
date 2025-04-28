@@ -6,6 +6,7 @@
 */
 #include "../include/PcapFileReader.h"
 
+#include <iomanip>
 #include <iostream>
 #include <bits/ostream.tcc>
 
@@ -24,4 +25,9 @@ void PcapFileReader::readPacket() {
         std::cerr << "Error reading packet!" << std::endl;
         exit(1);
     }
+}
+
+void PcapFileReader::printPacketInfo() const {
+    std::cout << "Size: " << header->len << std::endl;
+    std::cout << "Time: " << std::put_time(std::localtime(&header->ts.tv_sec), "%c %Z") << std::endl;
 }
