@@ -21,6 +21,8 @@ public:
 
     void readPacket();
 
+    void printMacAddress(int startByte, int endByte) const;
+
     void printPacketInfo() const;
 
 private:

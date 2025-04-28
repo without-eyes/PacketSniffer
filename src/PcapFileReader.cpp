@@ -27,7 +27,20 @@ void PcapFileReader::readPacket() {
     }
 }
 
+void PcapFileReader::printMacAddress(const int startByte, const int endByte) const {
+    for (int i = startByte; i < endByte; i++) {
+        std::cout << std::setfill('0') << std::setw(2) << std::hex << std::uppercase << static_cast<int>(packet[i]) << ":";
+    }
+    std::cout << std::setfill('0') << std::setw(2) << std::hex << std::uppercase << static_cast<int>(packet[endByte]) << std::endl;
+}
+
 void PcapFileReader::printPacketInfo() const {
     std::cout << "Size: " << header->len << std::endl;
     std::cout << "Time: " << std::put_time(std::localtime(&header->ts.tv_sec), "%c %Z") << std::endl;
+
+    std::cout << "Destination MAC: ";
+    printMacAddress(0, 5);
+
+    std::cout << "Source MAC: ";
+    printMacAddress(6, 11);
 }
