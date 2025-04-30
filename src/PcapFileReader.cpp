@@ -54,6 +54,11 @@ void PcapFileReader::printProtocolType() const {
     std::cout << protocols[packetProtocol] << " (0x" << packetProtocol << ")" << std::endl;
 }
 
+void PcapFileReader::printProtocolVersion() const {
+    // Get 4 first bites of 15th byte, e.g., 01000101 AND 0b11110000 -> 01000000 >> 4 -> 0100 = 4
+    std::cout << std::hex << ((static_cast<uint8_t>(packet[14]) & 240) >> 4) << std::endl;
+}
+
 void PcapFileReader::printPacketInfo() const {
     std::cout << "Size: " << header->len << std::endl;
     std::cout << "Time: " << std::put_time(std::localtime(&header->ts.tv_sec), "%c %Z") << std::endl;
@@ -65,4 +70,7 @@ void PcapFileReader::printPacketInfo() const {
 
     std::cout << "Type: ";
     printProtocolType();
+
+    std::cout << "Version: ";
+    printProtocolVersion();
 }
