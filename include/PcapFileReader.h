@@ -23,6 +23,8 @@ public:
 
     void printMacAddress(int startByte, int endByte) const;
 
+    void printProtocolType() const;
+
     void printPacketInfo() const;
 
 private:

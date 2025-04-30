@@ -8,6 +8,7 @@
 
 #include <iomanip>
 #include <iostream>
+#include <unordered_map>
 #include <bits/ostream.tcc>
 
 void PcapFileReader::setPcapFile(const std::string &pcapFileName) {
@@ -34,13 +35,34 @@ void PcapFileReader::printMacAddress(const int startByte, const int endByte) con
     std::cout << std::setfill('0') << std::setw(2) << std::hex << std::uppercase << static_cast<int>(packet[endByte]) << std::endl;
 }
 
+void PcapFileReader::printProtocolType() const {
+    static std::unordered_map<std::string, std::string> protocols;
+    if (protocols.empty()) {
+        protocols["0800"] = "IPv4";
+        protocols["86DD"] = "IPv6";
+        protocols["0806"] = "ARP";
+        protocols["8100"] = "VLAN-tagged";
+        protocols["88CC"] = "LLDP";
+        protocols["8847"] = "MPLS";
+    }
+
+    std::stringstream ss;
+    ss << std::setfill('0') << std::setw(2) << std::hex << std::uppercase << static_cast<int>(packet[12]);
+    ss << std::setfill('0') << std::setw(2) << std::hex << std::uppercase << static_cast<int>(packet[13]);
+    const std::string packetProtocol = ss.str();
+
+    std::cout << protocols[packetProtocol] << " (0x" << packetProtocol << ")" << std::endl;
+}
+
 void PcapFileReader::printPacketInfo() const {
     std::cout << "Size: " << header->len << std::endl;
     std::cout << "Time: " << std::put_time(std::localtime(&header->ts.tv_sec), "%c %Z") << std::endl;
 
     std::cout << "Destination MAC: ";
     printMacAddress(0, 5);
-
     std::cout << "Source MAC: ";
     printMacAddress(6, 11);
+
+    std::cout << "Type: ";
+    printProtocolType();
 }
