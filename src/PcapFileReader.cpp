@@ -28,7 +28,7 @@ void PcapFileReader::readPacket() {
     }
 }
 
-std::string PcapFileReader::getMacAddress(const int startByte, const int endByte) const {
+std::string PcapFileReader::getMacAddress(const FieldOffset startByte, const FieldOffset endByte) const {
     std::stringstream macAddressStreamString;
     for (int i = startByte; i < endByte; i++) {
         macAddressStreamString << std::setfill('0') << std::setw(2) << std::hex << std::uppercase << static_cast<int>(packet[i]) << ":";
@@ -49,8 +49,8 @@ std::string PcapFileReader::getProtocolType() const {
     }
 
     std::stringstream packetProtocolStringStream;
-    packetProtocolStringStream << std::setfill('0') << std::setw(2) << std::hex << std::uppercase << static_cast<int>(packet[12]);
-    packetProtocolStringStream << std::setfill('0') << std::setw(2) << std::hex << std::uppercase << static_cast<int>(packet[13]);
+    packetProtocolStringStream << std::setfill('0') << std::setw(2) << std::hex << std::uppercase << static_cast<int>(packet[PROTOCOL_TYPE_START]);
+    packetProtocolStringStream << std::setfill('0') << std::setw(2) << std::hex << std::uppercase << static_cast<int>(packet[PROTOCOL_TYPE_END]);
     const std::string packetProtocol = packetProtocolStringStream.str();
 
     std::stringstream resultStringStream;
@@ -61,19 +61,19 @@ std::string PcapFileReader::getProtocolType() const {
 
 int PcapFileReader::getProtocolVersion() const {
     // Get 4 first bites of 15th byte, e.g., 01000101 AND 0b11110000 -> 01000000 >> 4 -> 0100 = 4
-    return (static_cast<int>(packet[14]) & 240) >> 4;
+    return (static_cast<int>(packet[VERSION_AND_IHL]) & 240) >> 4;
 }
 
 int PcapFileReader::getHeaderLength() const {
     // Get 4 last bites of 15th byte, e.g., 01000101 AND 0b00001111 -> 0101 = 5 words = 20 bytes
-    return static_cast<int>(packet[14]) & 15;
+    return static_cast<int>(packet[VERSION_AND_IHL]) & 15;
 }
 
 void PcapFileReader::printPacketInfo() const {
     std::cout << "Size: " << header->len << std::endl;
     std::cout << "Time: " << std::put_time(std::localtime(&header->ts.tv_sec), "%c %Z") << std::endl;
-    std::cout << "Destination MAC: " << getMacAddress(0, 5) << std::endl;
-    std::cout << "Source MAC: " << getMacAddress(6, 11) << std::endl;
+    std::cout << "Destination MAC: " << getMacAddress(DESTINATION_MAC_ADDRESS_START, DESTINATION_MAC_ADDRESS_END) << std::endl;
+    std::cout << "Source MAC: " << getMacAddress(SOURCE_MAC_ADDRESS_START, SOURCE_MAC_ADDRESS_END) << std::endl;
     std::cout << "Type: " << getProtocolType() << std::endl;
     std::cout << "Version: " << std::dec << getProtocolVersion() << std::endl;
     std::cout << "Header Length: " << getHeaderLength() << " (" << getHeaderLength() * 4 << " bytes)" << std::endl;
