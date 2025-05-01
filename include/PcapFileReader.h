@@ -27,7 +27,7 @@ public:
 
     int getProtocolVersion() const;
 
-    void printHeaderLength() const;
+    int getHeaderLength() const;
 
     void printPacketInfo() const;
 

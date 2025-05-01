@@ -64,10 +64,9 @@ int PcapFileReader::getProtocolVersion() const {
     return (static_cast<int>(packet[14]) & 240) >> 4;
 }
 
-void PcapFileReader::printHeaderLength() const {
+int PcapFileReader::getHeaderLength() const {
     // Get 4 last bites of 15th byte, e.g., 01000101 AND 0b00001111 -> 0101 = 5 words = 20 bytes
-    const int headerLength = static_cast<int>(packet[14]) & 15;
-    std::cout << std::dec << headerLength << " (" << headerLength * 4 << " bytes)" << std::endl;
+    return static_cast<int>(packet[14]) & 15;
 }
 
 void PcapFileReader::printPacketInfo() const {
@@ -77,7 +76,5 @@ void PcapFileReader::printPacketInfo() const {
     std::cout << "Source MAC: " << getMacAddress(6, 11) << std::endl;
     std::cout << "Type: " << getProtocolType() << std::endl;
     std::cout << "Version: " << std::dec << getProtocolVersion() << std::endl;
-
-    std::cout << "Header Length: ";
-    printHeaderLength();
+    std::cout << "Header Length: " << getHeaderLength() << " (" << getHeaderLength() * 4 << " bytes)" << std::endl;
 }
