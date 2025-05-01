@@ -25,7 +25,7 @@ public:
 
     std::string getProtocolType() const;
 
-    void printProtocolVersion() const;
+    int getProtocolVersion() const;
 
     void printHeaderLength() const;
 
