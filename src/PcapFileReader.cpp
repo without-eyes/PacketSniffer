@@ -77,4 +77,17 @@ void PcapFileReader::printPacketInfo() const {
     std::cout << "Type: " << getProtocolType() << std::endl;
     std::cout << "Version: " << std::dec << getProtocolVersion() << std::endl;
     std::cout << "Header Length: " << getHeaderLength() << " (" << getHeaderLength() * 4 << " bytes)" << std::endl;
+    // TODO Types of Service
+    // TODO Total Length
+    // TODO Identification Number
+    // TODO IP Flags
+    // TODO Fragment Offset
+    // TODO Time to Live
+    // TODO Protocol
+    // TODO Header Checksum
+    // TODO Source Address
+    // TODO Destination Address
+    // TODO Source Port
+    // TODO Destination Port
+    // TODO Data/Other
 }
