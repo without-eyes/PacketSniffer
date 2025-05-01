@@ -23,7 +23,7 @@ public:
 
     std::string getMacAddress(int startByte, int endByte) const;
 
-    void printProtocolType() const;
+    std::string getProtocolType() const;
 
     void printProtocolVersion() const;
 

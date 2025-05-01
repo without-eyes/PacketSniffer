@@ -37,7 +37,7 @@ std::string PcapFileReader::getMacAddress(const int startByte, const int endByte
     return macAddressStreamString.str();
 }
 
-void PcapFileReader::printProtocolType() const {
+std::string PcapFileReader::getProtocolType() const {
     static std::unordered_map<std::string, std::string> protocols;
     if (protocols.empty()) {
         protocols["0800"] = "IPv4";
@@ -48,12 +48,15 @@ void PcapFileReader::printProtocolType() const {
         protocols["8847"] = "MPLS";
     }
 
-    std::stringstream ss;
-    ss << std::setfill('0') << std::setw(2) << std::hex << std::uppercase << static_cast<int>(packet[12]);
-    ss << std::setfill('0') << std::setw(2) << std::hex << std::uppercase << static_cast<int>(packet[13]);
-    const std::string packetProtocol = ss.str();
+    std::stringstream packetProtocolStringStream;
+    packetProtocolStringStream << std::setfill('0') << std::setw(2) << std::hex << std::uppercase << static_cast<int>(packet[12]);
+    packetProtocolStringStream << std::setfill('0') << std::setw(2) << std::hex << std::uppercase << static_cast<int>(packet[13]);
+    const std::string packetProtocol = packetProtocolStringStream.str();
 
-    std::cout << protocols[packetProtocol] << " (0x" << packetProtocol << ")" << std::endl;
+    std::stringstream resultStringStream;
+    resultStringStream << protocols[packetProtocol] << " (0x" << packetProtocol << ")";
+
+    return resultStringStream.str();
 }
 
 void PcapFileReader::printProtocolVersion() const {
@@ -72,9 +75,7 @@ void PcapFileReader::printPacketInfo() const {
     std::cout << "Time: " << std::put_time(std::localtime(&header->ts.tv_sec), "%c %Z") << std::endl;
     std::cout << "Destination MAC: " << getMacAddress(0, 5) << std::endl;
     std::cout << "Source MAC: " << getMacAddress(6, 11) << std::endl;
-
-    std::cout << "Type: ";
-    printProtocolType();
+    std::cout << "Type: " << getProtocolType() << std::endl;
 
     std::cout << "Version: ";
     printProtocolVersion();
