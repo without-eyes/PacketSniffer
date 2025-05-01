@@ -21,7 +21,7 @@ public:
 
     void readPacket();
 
-    void printMacAddress(int startByte, int endByte) const;
+    std::string getMacAddress(int startByte, int endByte) const;
 
     void printProtocolType() const;
 

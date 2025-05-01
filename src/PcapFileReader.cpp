@@ -28,11 +28,13 @@ void PcapFileReader::readPacket() {
     }
 }
 
-void PcapFileReader::printMacAddress(const int startByte, const int endByte) const {
+std::string PcapFileReader::getMacAddress(const int startByte, const int endByte) const {
+    std::stringstream macAddressStreamString;
     for (int i = startByte; i < endByte; i++) {
-        std::cout << std::setfill('0') << std::setw(2) << std::hex << std::uppercase << static_cast<int>(packet[i]) << ":";
+        macAddressStreamString << std::setfill('0') << std::setw(2) << std::hex << std::uppercase << static_cast<int>(packet[i]) << ":";
     }
-    std::cout << std::setfill('0') << std::setw(2) << std::hex << std::uppercase << static_cast<int>(packet[endByte]) << std::endl;
+    macAddressStreamString << std::setfill('0') << std::setw(2) << std::hex << std::uppercase << static_cast<int>(packet[endByte]);
+    return macAddressStreamString.str();
 }
 
 void PcapFileReader::printProtocolType() const {
@@ -68,11 +70,8 @@ void PcapFileReader::printHeaderLength() const {
 void PcapFileReader::printPacketInfo() const {
     std::cout << "Size: " << header->len << std::endl;
     std::cout << "Time: " << std::put_time(std::localtime(&header->ts.tv_sec), "%c %Z") << std::endl;
-
-    std::cout << "Destination MAC: ";
-    printMacAddress(0, 5);
-    std::cout << "Source MAC: ";
-    printMacAddress(6, 11);
+    std::cout << "Destination MAC: " << getMacAddress(0, 5) << std::endl;
+    std::cout << "Source MAC: " << getMacAddress(6, 11) << std::endl;
 
     std::cout << "Type: ";
     printProtocolType();
