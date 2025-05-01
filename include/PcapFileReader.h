@@ -27,6 +27,8 @@ public:
 
     void printProtocolVersion() const;
 
+    void printHeaderLength() const;
+
     void printPacketInfo() const;
 
 private:
