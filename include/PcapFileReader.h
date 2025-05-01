@@ -5,8 +5,7 @@
     * This file contains main class of PacketSniffer application.
 */
 
-#ifndef PCAPFILEREADER_H
-#define PCAPFILEREADER_H
+#pragma once
 
 #include <string>
 #include <pcap/pcap.h>
@@ -67,7 +66,3 @@ private:
     pcap_pkthdr* header;
     const u_char* packet;
 };
-
-
-
-#endif //PCAPFILEREADER_H
