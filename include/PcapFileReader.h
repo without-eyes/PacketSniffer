@@ -67,6 +67,8 @@ public:
 
     std::string getIdentificationNumber() const;
 
+    int getReservedBit() const;
+
     void printPacketInfo() const;
 
 private:
