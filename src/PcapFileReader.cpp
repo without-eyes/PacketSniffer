@@ -69,6 +69,26 @@ int PcapFileReader::getHeaderLength() const {
     return static_cast<int>(packet[VERSION_AND_IHL]) & 15;
 }
 
+std::string PcapFileReader::getDifferentiatedServicesCodepoint() const {
+    static std::unordered_map<int, std::string> dscpValues;
+    if (dscpValues.empty()) {
+        dscpValues[0] = "Default";
+        dscpValues[8] = "Class Selector 1";
+        dscpValues[10] = "AF11";
+        dscpValues[18] = "AF21";
+        dscpValues[26] = "AF31";
+        dscpValues[46] = "Expedited Forwarding";
+        for (int i = 48; i <= 63; i++) {
+            dscpValues[i] = "CS6–CS7";
+        }
+    }
+
+    std::stringstream dscpStringStream;
+    dscpStringStream << dscpValues[static_cast<int>(packet[TYPES_OF_SERVICE]) & 252] << " (" << static_cast<int>(packet[TYPES_OF_SERVICE]) << ")";
+
+    return dscpStringStream.str();
+}
+
 void PcapFileReader::printPacketInfo() const {
     std::cout << "Size: " << header->len << std::endl;
     std::cout << "Time: " << std::put_time(std::localtime(&header->ts.tv_sec), "%c %Z") << std::endl;
@@ -77,7 +97,8 @@ void PcapFileReader::printPacketInfo() const {
     std::cout << "Type: " << getProtocolType() << std::endl;
     std::cout << "Version: " << std::dec << getProtocolVersion() << std::endl;
     std::cout << "Header Length: " << getHeaderLength() << " (" << getHeaderLength() * 4 << " bytes)" << std::endl;
-    // TODO Types of Service
+    std::cout << "Differentiated Services Codepoint: " << getDifferentiatedServicesCodepoint() << std::endl;
+    // TODO Explicit Congestion Notification
     // TODO Total Length
     // TODO Identification Number
     // TODO IP Flags

@@ -59,6 +59,8 @@ public:
 
     int getHeaderLength() const;
 
+    std::string getDifferentiatedServicesCodepoint() const;
+
     void printPacketInfo() const;
 
 private:
