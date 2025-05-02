@@ -77,6 +77,8 @@ public:
 
     int getTimeToLive() const;
 
+    std::string getProtocol() const;
+
     void printPacketInfo() const;
 
 private:
