@@ -73,6 +73,8 @@ public:
 
     int getMoreFragmentsBit() const;
 
+    int getFragmentsOffset() const;
+
     void printPacketInfo() const;
 
 private:
