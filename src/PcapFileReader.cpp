@@ -105,6 +105,15 @@ int PcapFileReader::getTotalLength() const {
     return (static_cast<int>(packet[TOTAL_LENGTH_START]) << 2) + static_cast<int>(packet[TOTAL_LENGTH_END]);
 }
 
+std::string PcapFileReader::getIdentificationNumber() const {
+    std::stringstream identificationNumberStream;
+    identificationNumberStream << "0x";
+    identificationNumberStream << std::setfill('0') << std::setw(2) << std::hex << std::uppercase << static_cast<int>(packet[IDENTIFICATION_NUMBER_START]);
+    identificationNumberStream << std::setfill('0') << std::setw(2) << std::hex << std::uppercase << static_cast<int>(packet[IDENTIFICATION_NUMBER_END]);
+    identificationNumberStream << std::dec << " (" << (static_cast<int>(packet[IDENTIFICATION_NUMBER_START]) << 2) + static_cast<int>(packet[IDENTIFICATION_NUMBER_END]) << ")";
+    return identificationNumberStream.str();
+}
+
 void PcapFileReader::printPacketInfo() const {
     std::cout << "Size: " << header->len << std::endl;
     std::cout << "Time: " << std::put_time(std::localtime(&header->ts.tv_sec), "%c %Z") << std::endl;
@@ -116,7 +125,7 @@ void PcapFileReader::printPacketInfo() const {
     std::cout << "Differentiated Services Codepoint: " << getDifferentiatedServicesCodepoint() << std::endl;
     std::cout << "Explicit Congestion Notification: " << getExplicitCongestionNotification() << std::endl;
     std::cout << "Total Length: " << getTotalLength() << std::endl;
-    // TODO Identification Number
+    std::cout << "Identification Number: " << getIdentificationNumber() << std::endl;
     // TODO IP Flags
     // TODO Fragment Offset
     // TODO Time to Live

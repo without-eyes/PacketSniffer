@@ -65,6 +65,8 @@ public:
 
     int getTotalLength() const;
 
+    std::string getIdentificationNumber() const;
+
     void printPacketInfo() const;
 
 private:
