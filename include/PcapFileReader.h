@@ -75,6 +75,8 @@ public:
 
     int getFragmentsOffset() const;
 
+    int getTimeToLive() const;
+
     void printPacketInfo() const;
 
 private:

@@ -130,6 +130,10 @@ int PcapFileReader::getFragmentsOffset() const {
     return ((static_cast<int>(packet[FRAGMENT_OFFSET_START]) & 31) << 2) + static_cast<int>(packet[FRAGMENT_OFFSET_END]);
 }
 
+int PcapFileReader::getTimeToLive() const {
+    return static_cast<int>(packet[TIME_TO_LIVE]);
+}
+
 void PcapFileReader::printPacketInfo() const {
     std::cout << "Size: " << header->len << std::endl;
     std::cout << "Time: " << std::put_time(std::localtime(&header->ts.tv_sec), "%c %Z") << std::endl;
@@ -147,7 +151,7 @@ void PcapFileReader::printPacketInfo() const {
     std::cout << "\tDon't fragment bit: " << getDontFragmentBit() << std::endl;
     std::cout << "\tMore fragments bit: " << getMoreFragmentsBit() << std::endl;
     std::cout << "Fragment Offset: " << getFragmentsOffset() << std::endl;
-    // TODO Time to Live
+    std::cout << "Time to Live: " << getTimeToLive() << std::endl;
     // TODO Protocol
     // TODO Header Checksum
     // TODO Source Address
