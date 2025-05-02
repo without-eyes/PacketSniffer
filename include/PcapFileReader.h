@@ -69,6 +69,8 @@ public:
 
     int getReservedBit() const;
 
+    int getDontFragmentBit() const;
+
     void printPacketInfo() const;
 
 private:

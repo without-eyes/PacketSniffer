@@ -118,6 +118,10 @@ int PcapFileReader::getReservedBit() const {
     return static_cast<int>(packet[IP_FLAGS] & 8);
 }
 
+int PcapFileReader::getDontFragmentBit() const {
+    return static_cast<int>(packet[IP_FLAGS] & 4);
+}
+
 void PcapFileReader::printPacketInfo() const {
     std::cout << "Size: " << header->len << std::endl;
     std::cout << "Time: " << std::put_time(std::localtime(&header->ts.tv_sec), "%c %Z") << std::endl;
@@ -132,6 +136,7 @@ void PcapFileReader::printPacketInfo() const {
     std::cout << "Identification Number: " << getIdentificationNumber() << std::endl;
     std::cout << "IP Flags:" << std::endl;
     std::cout << "\tReserved bit: " << getReservedBit() << std::endl;
+    std::cout << "\tDon't fragment bit: " << getDontFragmentBit() << std::endl;
     // TODO Fragment Offset
     // TODO Time to Live
     // TODO Protocol
