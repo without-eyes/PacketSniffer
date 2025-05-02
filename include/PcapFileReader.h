@@ -71,6 +71,8 @@ public:
 
     int getDontFragmentBit() const;
 
+    int getMoreFragmentsBit() const;
+
     void printPacketInfo() const;
 
 private:
