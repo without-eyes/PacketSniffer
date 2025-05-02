@@ -89,6 +89,18 @@ std::string PcapFileReader::getDifferentiatedServicesCodepoint() const {
     return dscpStringStream.str();
 }
 
+std::string PcapFileReader::getExplicitCongestionNotification() const {
+    static std::unordered_map<int, std::string> ecnValues;
+    if (ecnValues.empty()) {
+        ecnValues[0] = "Not ECN-Capable";
+        ecnValues[1] = "ECT(1)";
+        ecnValues[2] = "ECT(0)";
+        ecnValues[3] = "CE";
+    }
+
+    return ecnValues[static_cast<int>(packet[TYPES_OF_SERVICE]) & 2];
+}
+
 void PcapFileReader::printPacketInfo() const {
     std::cout << "Size: " << header->len << std::endl;
     std::cout << "Time: " << std::put_time(std::localtime(&header->ts.tv_sec), "%c %Z") << std::endl;
@@ -98,7 +110,7 @@ void PcapFileReader::printPacketInfo() const {
     std::cout << "Version: " << std::dec << getProtocolVersion() << std::endl;
     std::cout << "Header Length: " << getHeaderLength() << " (" << getHeaderLength() * 4 << " bytes)" << std::endl;
     std::cout << "Differentiated Services Codepoint: " << getDifferentiatedServicesCodepoint() << std::endl;
-    // TODO Explicit Congestion Notification
+    std::cout << "Explicit Congestion Notification: " << getExplicitCongestionNotification() << std::endl;
     // TODO Total Length
     // TODO Identification Number
     // TODO IP Flags

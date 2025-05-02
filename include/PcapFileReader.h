@@ -61,6 +61,8 @@ public:
 
     std::string getDifferentiatedServicesCodepoint() const;
 
+    std::string getExplicitCongestionNotification() const;
+
     void printPacketInfo() const;
 
 private:
