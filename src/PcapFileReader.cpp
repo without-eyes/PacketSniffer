@@ -101,6 +101,10 @@ std::string PcapFileReader::getExplicitCongestionNotification() const {
     return ecnValues[static_cast<int>(packet[TYPES_OF_SERVICE]) & 2];
 }
 
+int PcapFileReader::getTotalLength() const {
+    return (static_cast<int>(packet[TOTAL_LENGTH_START]) << 2) + static_cast<int>(packet[TOTAL_LENGTH_END]);
+}
+
 void PcapFileReader::printPacketInfo() const {
     std::cout << "Size: " << header->len << std::endl;
     std::cout << "Time: " << std::put_time(std::localtime(&header->ts.tv_sec), "%c %Z") << std::endl;
@@ -111,7 +115,7 @@ void PcapFileReader::printPacketInfo() const {
     std::cout << "Header Length: " << getHeaderLength() << " (" << getHeaderLength() * 4 << " bytes)" << std::endl;
     std::cout << "Differentiated Services Codepoint: " << getDifferentiatedServicesCodepoint() << std::endl;
     std::cout << "Explicit Congestion Notification: " << getExplicitCongestionNotification() << std::endl;
-    // TODO Total Length
+    std::cout << "Total Length: " << getTotalLength() << std::endl;
     // TODO Identification Number
     // TODO IP Flags
     // TODO Fragment Offset

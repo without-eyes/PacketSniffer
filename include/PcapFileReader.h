@@ -63,6 +63,8 @@ public:
 
     std::string getExplicitCongestionNotification() const;
 
+    int getTotalLength() const;
+
     void printPacketInfo() const;
 
 private:
