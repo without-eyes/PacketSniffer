@@ -115,11 +115,11 @@ std::string PcapFileReader::getIdentificationNumber() const {
 }
 
 int PcapFileReader::getReservedBit() const {
-    return static_cast<int>(packet[IP_FLAGS] & 8);
+    return (static_cast<int>(packet[IP_FLAGS]) & 128) >> 7;
 }
 
 int PcapFileReader::getDontFragmentBit() const {
-    return static_cast<int>(packet[IP_FLAGS] & 4);
+    return (static_cast<int>(packet[IP_FLAGS]) & 64) >> 6;
 }
 
 void PcapFileReader::printPacketInfo() const {
