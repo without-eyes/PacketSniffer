@@ -302,6 +302,15 @@ std::string PcapFileReader::getHeaderChecksum() const {
     return headerChecksumStringStream.str();
 }
 
+std::string PcapFileReader::getIpAddress(const FieldOffset startByte, const FieldOffset endByte) const {
+    std::stringstream ipAddressStringStream;
+    for (int i = startByte; i < endByte; i++) {
+        ipAddressStringStream << static_cast<int>(packet[i]) << ".";
+    }
+    ipAddressStringStream << static_cast<int>(packet[endByte]);
+    return ipAddressStringStream.str();
+}
+
 void PcapFileReader::printPacketInfo() const {
     std::cout << "Size: " << header->len << std::endl;
     std::cout << "Time: " << std::put_time(std::localtime(&header->ts.tv_sec), "%c %Z") << std::endl;
@@ -322,8 +331,8 @@ void PcapFileReader::printPacketInfo() const {
     std::cout << "Time to Live: " << getTimeToLive() << std::endl;
     std::cout << "Protocol: " << getProtocol() << std::endl;
     std::cout << "Header Checksum: " << getHeaderChecksum() << std::endl;
-    // TODO Source Address
-    // TODO Destination Address
+    std::cout << "Source Address: " << getIpAddress(SOURCE_IP_ADDRESS_START, SOURCE_IP_ADDRESS_END) << std::endl;
+    std::cout << "Destination Address: " << getIpAddress(DESTINATION_IP_ADDRESS_START, DESTINATION_IP_ADDRESS_END) << std::endl;
     // TODO Source Port
     // TODO Destination Port
     // TODO Data/Other

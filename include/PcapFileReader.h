@@ -81,6 +81,8 @@ public:
 
     std::string getHeaderChecksum() const;
 
+    std::string getIpAddress(FieldOffset startByte, FieldOffset endByte) const;
+
     void printPacketInfo() const;
 
 private:
