@@ -83,6 +83,8 @@ public:
 
     std::string getIpAddress(FieldOffset startByte, FieldOffset endByte) const;
 
+    int getPort(FieldOffset startByte, FieldOffset endByte) const;
+
     void printPacketInfo() const;
 
 private:

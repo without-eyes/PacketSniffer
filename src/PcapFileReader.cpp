@@ -311,6 +311,10 @@ std::string PcapFileReader::getIpAddress(const FieldOffset startByte, const Fiel
     return ipAddressStringStream.str();
 }
 
+int PcapFileReader::getPort(const FieldOffset startByte, const FieldOffset endByte) const {
+    return static_cast<int>(packet[startByte]) << 8 | static_cast<int>(packet[endByte]);
+}
+
 void PcapFileReader::printPacketInfo() const {
     std::cout << "Size: " << header->len << std::endl;
     std::cout << "Time: " << std::put_time(std::localtime(&header->ts.tv_sec), "%c %Z") << std::endl;
@@ -333,7 +337,7 @@ void PcapFileReader::printPacketInfo() const {
     std::cout << "Header Checksum: " << getHeaderChecksum() << std::endl;
     std::cout << "Source Address: " << getIpAddress(SOURCE_IP_ADDRESS_START, SOURCE_IP_ADDRESS_END) << std::endl;
     std::cout << "Destination Address: " << getIpAddress(DESTINATION_IP_ADDRESS_START, DESTINATION_IP_ADDRESS_END) << std::endl;
-    // TODO Source Port
-    // TODO Destination Port
+    std::cout << "Source Port: " << getPort(SOURCE_PORT_START, SOURCE_PORT_END) << std::endl;
+    std::cout << "Destination Port: " << getPort(DESTINATION_PORT_START, DESTINATION_PORT_END) << std::endl;
     // TODO Data/Other
 }
