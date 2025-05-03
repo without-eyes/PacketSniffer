@@ -85,6 +85,8 @@ public:
 
     int getPort(FieldOffset startByte, FieldOffset endByte) const;
 
+    std::string getData() const;
+
     void printPacketInfo() const;
 
 private:
