@@ -294,6 +294,14 @@ std::string PcapFileReader::getProtocol() const {
     return protocolsStringStream.str();
 }
 
+std::string PcapFileReader::getHeaderChecksum() const {
+    std::stringstream headerChecksumStringStream;
+    headerChecksumStringStream << "0x";
+    headerChecksumStringStream << std::setfill('0') << std::setw(2) << std::hex << std::uppercase << static_cast<int>(packet[HEADER_CHECKSUM_START]);
+    headerChecksumStringStream << std::setfill('0') << std::setw(2) << std::hex << std::uppercase << static_cast<int>(packet[HEADER_CHECKSUM_END]);
+    return headerChecksumStringStream.str();
+}
+
 void PcapFileReader::printPacketInfo() const {
     std::cout << "Size: " << header->len << std::endl;
     std::cout << "Time: " << std::put_time(std::localtime(&header->ts.tv_sec), "%c %Z") << std::endl;
@@ -313,7 +321,7 @@ void PcapFileReader::printPacketInfo() const {
     std::cout << "Fragment Offset: " << getFragmentsOffset() << std::endl;
     std::cout << "Time to Live: " << getTimeToLive() << std::endl;
     std::cout << "Protocol: " << getProtocol() << std::endl;
-    // TODO Header Checksum
+    std::cout << "Header Checksum: " << getHeaderChecksum() << std::endl;
     // TODO Source Address
     // TODO Destination Address
     // TODO Source Port

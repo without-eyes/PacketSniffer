@@ -79,6 +79,8 @@ public:
 
     std::string getProtocol() const;
 
+    std::string getHeaderChecksum() const;
+
     void printPacketInfo() const;
 
 private:
