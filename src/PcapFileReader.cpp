@@ -139,7 +139,7 @@ std::string PcapFileReader::getProtocol() const {
     static std::unordered_map<int, std::string> protocols;
     if (protocols.empty()) {
         std::string line;
-        std::ifstream portToProtocolFile("../numberToProtocol.txt");
+        std::ifstream portToProtocolFile("numberToProtocol.txt");
         while (getline(portToProtocolFile, line)) {
             int port;
             std::string protocol;
