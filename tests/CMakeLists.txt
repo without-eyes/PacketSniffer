@@ -8,3 +8,5 @@ add_executable(PacketSnifferTests main.cpp
         ../src/PcapFileReader.cpp)
 
 target_link_libraries(PacketSnifferTests pcap gtest gmock pthread)
+
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/../numberToProtocol.txt ${CMAKE_CURRENT_BINARY_DIR}/numberToProtocol.txt COPYONLY)
