@@ -28,11 +28,27 @@ void PcapFileReader::setPcapFile(const std::string &pcapFileName) {
     }
 }
 
+void PcapFileReader::readAllPackets() {
+    try {
+        int count = 1;
+        while (true) {
+            readPacket();
+            std::cout << "Packet Number: " << count++ << std::endl;
+            printPacketInfo();
+            std::cout << std::endl;
+        }
+    } catch (const std::exception &e) {
+        exit(1);
+    }
+}
+
 void PcapFileReader::readPacket() {
     const int result = pcap_next_ex(handle, &header, &packet);
     if (result == PCAP_ERROR) {
-        std::cerr << "Error reading packet!" << std::endl;
-        exit(1);
+        throw std::runtime_error("Error reading packet!");
+    }
+    if (result == PCAP_ERROR_BREAK) {
+        throw std::runtime_error("Reached end of file!");
     }
 }
 

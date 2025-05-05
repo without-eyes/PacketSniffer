@@ -49,6 +49,8 @@ public:
 
     void setPcapFile(const std::string &pcapFileName);
 
+    void readAllPackets();
+
     void readPacket();
 
     std::string getMacAddress(FieldOffset startByte, FieldOffset endByte) const;
