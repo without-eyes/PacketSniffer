@@ -12,6 +12,13 @@
 #include <unordered_map>
 #include <bits/ostream.tcc>
 
+PcapFileReader::~PcapFileReader() {
+    if (handle) {
+        pcap_close(handle);
+        handle = nullptr;
+    }
+}
+
 void PcapFileReader::setPcapFile(const std::string &pcapFileName) {
     char errorBuffer[PCAP_ERRBUF_SIZE];
     handle = pcap_open_offline(pcapFileName.c_str(), errorBuffer);

@@ -45,7 +45,7 @@ class PcapFileReader {
 public:
     PcapFileReader() = default;
 
-    ~PcapFileReader() = default;
+    ~PcapFileReader();
 
     void setPcapFile(const std::string &pcapFileName);
 
