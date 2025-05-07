@@ -3,7 +3,9 @@ project(PacketSniffer)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_executable(PacketSniffer src/main.cpp src/PcapFileReader.cpp)
+add_executable(PacketSniffer src/main.cpp src/PcapFileReader.cpp
+        src/ArgumentsParser.cpp
+        include/ArgumentsParser.h)
 
 target_link_libraries(PacketSniffer pcap)
 
