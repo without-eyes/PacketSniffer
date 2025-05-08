@@ -29,6 +29,7 @@ void ArgumentsParser::parseArguments(const int argc, char *argv[]) {
                 std::cout << "  -h, --help        Show this help message" << std::endl;
                 std::cout << "  -f, --file        Set .pcap file from where packets will be read" << std::endl;
                 std::cout << "  -s, --src         Set filter to print packets with provided source IP address" << std::endl;
+                std::cout << "  -d, --dst         Set filter to print packets with provided destination IP address" << std::endl;
                 exit(EXIT_SUCCESS);
 
             case 'f': // read from file
