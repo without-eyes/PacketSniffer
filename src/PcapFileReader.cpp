@@ -9,6 +9,7 @@
 #include <fstream>
 #include <iomanip>
 #include <iostream>
+#include <memory>
 #include <unordered_map>
 #include <bits/ostream.tcc>
 
@@ -20,10 +21,10 @@ PcapFileReader::~PcapFileReader() {
 }
 
 void PcapFileReader::setPcapFile(const std::string &pcapFileName) {
-    char errorBuffer[PCAP_ERRBUF_SIZE];
-    handle = pcap_open_offline(pcapFileName.c_str(), errorBuffer);
+    const auto errorBuffer = std::make_unique<char>(PCAP_ERRBUF_SIZE);
+    handle = pcap_open_offline(pcapFileName.c_str(), errorBuffer.get());
     if (handle == nullptr) {
-        std::cerr << errorBuffer << std::endl;
+        std::cerr << errorBuffer.get() << std::endl;
         exit(EXIT_FAILURE);
     }
 }
