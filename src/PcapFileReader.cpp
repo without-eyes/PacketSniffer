@@ -22,9 +22,9 @@ PcapFileReader::~PcapFileReader() {
     }
 }
 
-void PcapFileReader::setPcapFile(const std::string &pcapFileName) {
+void PcapFileReader::setPcapFile() {
     const auto errorBuffer = std::make_unique<char>(PCAP_ERRBUF_SIZE);
-    handle = pcap_open_offline(pcapFileName.c_str(), errorBuffer.get());
+    handle = pcap_open_offline(ArgumentsParser::getPathToFile().c_str(), errorBuffer.get());
     if (handle == nullptr) {
         std::cerr << errorBuffer.get() << std::endl;
         exit(EXIT_FAILURE);

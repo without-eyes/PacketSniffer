@@ -47,7 +47,7 @@ public:
 
     ~PcapFileReader();
 
-    void setPcapFile(const std::string &pcapFileName);
+    void setPcapFile();
 
     void readAllPackets();
 
