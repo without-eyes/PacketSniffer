@@ -13,6 +13,8 @@
 #include <unordered_map>
 #include <bits/ostream.tcc>
 
+#include "../include/ArgumentsParser.h"
+
 PcapFileReader::~PcapFileReader() {
     if (handle) {
         pcap_close(handle);
@@ -51,6 +53,15 @@ void PcapFileReader::readPacket() {
     if (result == PCAP_ERROR_BREAK) {
         throw std::runtime_error("Reached end of file!");
     }
+}
+
+bool PcapFileReader::isPacketMatchesFilter() const {
+    if (!ArgumentsParser::getSourceIpAddress().empty() &&
+        getIpAddress(SOURCE_IP_ADDRESS_START, SOURCE_IP_ADDRESS_END) != ArgumentsParser::getSourceIpAddress()) {
+        return false;
+    }
+
+    return true;
 }
 
 std::string PcapFileReader::getMacAddress(const FieldOffset startByte, const FieldOffset endByte) const {
@@ -215,6 +226,8 @@ std::string PcapFileReader::getData() const {
 }
 
 void PcapFileReader::printPacketInfo() const {
+    if (!isPacketMatchesFilter()) return;
+
     std::cout << "Size: " << header->len << std::endl;
     std::cout << "Time: " << std::put_time(std::localtime(&header->ts.tv_sec), "%c %Z") << std::endl;
     std::cout << "Destination MAC: " << getMacAddress(DESTINATION_MAC_ADDRESS_START, DESTINATION_MAC_ADDRESS_END) << std::endl;

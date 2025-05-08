@@ -53,6 +53,8 @@ public:
 
     void readPacket();
 
+    bool isPacketMatchesFilter() const;
+
     std::string getMacAddress(FieldOffset startByte, FieldOffset endByte) const;
 
     std::string getProtocolType() const;
