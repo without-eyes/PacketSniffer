@@ -47,6 +47,8 @@ public:
 
     ~PcapFileReader();
 
+    void run();
+
     void setPcapFile();
 
     void readAllPackets();
