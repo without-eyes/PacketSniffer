@@ -33,10 +33,8 @@ void PcapFileReader::setPcapFile(const std::string &pcapFileName) {
 
 void PcapFileReader::readAllPackets() {
     try {
-        int count = 1;
         while (true) {
             readPacket();
-            std::cout << "Packet Number: " << count++ << std::endl;
             printPacketInfo();
             std::cout << std::endl;
         }
