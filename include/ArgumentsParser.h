@@ -16,6 +16,9 @@ public:
 
     static std::string getPathToFile();
 
+    static std::string getSourceIpAddress();
+
 private:
     static std::string pathToFile;
+    static std::string sourceIpAddress;
 };
