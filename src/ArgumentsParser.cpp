@@ -12,17 +12,19 @@
 std::string ArgumentsParser::pathToFile;
 std::string ArgumentsParser::sourceIpAddress;
 std::string ArgumentsParser::destinationIpAddress;
+std::optional<int> ArgumentsParser::port;
 
 void ArgumentsParser::parseArguments(const int argc, char *argv[]) {
     int currentOption;
-    auto longOptions = std::make_unique<option[]>(5);
+    auto longOptions = std::make_unique<option[]>(6);
     longOptions[0] = {"help", no_argument, nullptr, 'h'};
     longOptions[1] = {"file", required_argument, nullptr, 'f'};
     longOptions[2] = {"src", required_argument, nullptr, 's'};
     longOptions[3] = {"dst", required_argument, nullptr, 'd'};
-    longOptions[4] = {nullptr, 0, nullptr, 0};
+    longOptions[4] = {"port", required_argument, nullptr, 'P'};
+    longOptions[5] = {nullptr, 0, nullptr, 0};
 
-    while ((currentOption = getopt_long(argc, argv, "hf:s:d:", longOptions.get(), nullptr)) != -1) {
+    while ((currentOption = getopt_long(argc, argv, "hf:s:d:P:", longOptions.get(), nullptr)) != -1) {
         switch (currentOption) {
             case 'h': // help
                 std::cout << "Usage: " << argv[0] << " [options] filename" << std::endl;
@@ -30,6 +32,7 @@ void ArgumentsParser::parseArguments(const int argc, char *argv[]) {
                 std::cout << "  -f, --file        Set .pcap file from where packets will be read" << std::endl;
                 std::cout << "  -s, --src         Set filter to print packets with provided source IP address" << std::endl;
                 std::cout << "  -d, --dst         Set filter to print packets with provided destination IP address" << std::endl;
+                std::cout << "  -P, --port        Set filter to print packets with provided port" << std::endl;
                 exit(EXIT_SUCCESS);
 
             case 'f': // read from file
@@ -42,6 +45,10 @@ void ArgumentsParser::parseArguments(const int argc, char *argv[]) {
 
             case 'd': // sort by destination IP
                 destinationIpAddress = optarg;
+                break;
+
+            case 'P': // sort by port
+                port = std::stoi(optarg);
                 break;
 
             default:
@@ -66,4 +73,8 @@ std::string ArgumentsParser::getSourceIpAddress() {
 
 std::string ArgumentsParser::getDestinationIpAddress() {
     return destinationIpAddress;
+}
+
+std::optional<int> ArgumentsParser::getPort() {
+    return port;
 }

@@ -66,6 +66,12 @@ bool PcapFileReader::isPacketMatchesFilter() const {
         return false;
     }
 
+    if (ArgumentsParser::getPort() &&
+        getPort(SOURCE_PORT_START, SOURCE_PORT_END) != ArgumentsParser::getPort() &&
+        getPort(DESTINATION_PORT_START, DESTINATION_PORT_END) != ArgumentsParser::getPort()) {
+        return false;
+    }
+
     return true;
 }
 

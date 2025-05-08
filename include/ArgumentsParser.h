@@ -9,6 +9,7 @@
 
 #include <iostream>
 #include <getopt.h>
+#include <optional>
 
 class ArgumentsParser {
 public:
@@ -20,8 +21,11 @@ public:
 
     static std::string getDestinationIpAddress();
 
+    static std::optional<int> getPort();
+
 private:
     static std::string pathToFile;
     static std::string sourceIpAddress;
     static std::string destinationIpAddress;
+    static std::optional<int> port;
 };
