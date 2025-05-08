@@ -61,6 +61,11 @@ bool PcapFileReader::isPacketMatchesFilter() const {
         return false;
     }
 
+    if (!ArgumentsParser::getDestinationIpAddress().empty() &&
+        getIpAddress(DESTINATION_IP_ADDRESS_START, DESTINATION_IP_ADDRESS_END) != ArgumentsParser::getDestinationIpAddress()) {
+        return false;
+    }
+
     return true;
 }
 

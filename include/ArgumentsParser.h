@@ -18,7 +18,10 @@ public:
 
     static std::string getSourceIpAddress();
 
+    static std::string getDestinationIpAddress();
+
 private:
     static std::string pathToFile;
     static std::string sourceIpAddress;
+    static std::string destinationIpAddress;
 };

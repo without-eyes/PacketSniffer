@@ -11,16 +11,18 @@
 
 std::string ArgumentsParser::pathToFile;
 std::string ArgumentsParser::sourceIpAddress;
+std::string ArgumentsParser::destinationIpAddress;
 
 void ArgumentsParser::parseArguments(const int argc, char *argv[]) {
     int currentOption;
-    auto longOptions = std::make_unique<option[]>(3);
+    auto longOptions = std::make_unique<option[]>(5);
     longOptions[0] = {"help", no_argument, nullptr, 'h'};
     longOptions[1] = {"file", required_argument, nullptr, 'f'};
     longOptions[2] = {"src", required_argument, nullptr, 's'};
-    longOptions[3] = {nullptr, 0, nullptr, 0};
+    longOptions[3] = {"dst", required_argument, nullptr, 'd'};
+    longOptions[4] = {nullptr, 0, nullptr, 0};
 
-    while ((currentOption = getopt_long(argc, argv, "hf:s:", longOptions.get(), nullptr)) != -1) {
+    while ((currentOption = getopt_long(argc, argv, "hf:s:d:", longOptions.get(), nullptr)) != -1) {
         switch (currentOption) {
             case 'h': // help
                 std::cout << "Usage: " << argv[0] << " [options] filename" << std::endl;
@@ -35,6 +37,10 @@ void ArgumentsParser::parseArguments(const int argc, char *argv[]) {
 
             case 's': // sort by source IP
                 sourceIpAddress = optarg;
+                break;
+
+            case 'd': // sort by destination IP
+                destinationIpAddress = optarg;
                 break;
 
             default:
@@ -55,4 +61,8 @@ std::string ArgumentsParser::getPathToFile() {
 
 std::string ArgumentsParser::getSourceIpAddress() {
     return sourceIpAddress;
+}
+
+std::string ArgumentsParser::getDestinationIpAddress() {
+    return destinationIpAddress;
 }
