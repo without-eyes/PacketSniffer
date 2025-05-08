@@ -4,6 +4,6 @@
 int main(const int argc, char *argv[]) {
     ArgumentsParser::parseArguments(argc, argv);
     PcapFileReader pcapFileReader;
-    pcapFileReader.setPcapFile(argv[1]);
+    pcapFileReader.setPcapFile(ArgumentsParser::getPathToFile());
     pcapFileReader.readAllPackets();
 }

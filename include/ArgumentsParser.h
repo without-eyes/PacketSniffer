@@ -14,6 +14,8 @@ class ArgumentsParser {
 public:
     static void parseArguments(int argc, char *argv[]);
 
-private:
+    static std::string getPathToFile();
 
+private:
+    static std::string pathToFile;
 };

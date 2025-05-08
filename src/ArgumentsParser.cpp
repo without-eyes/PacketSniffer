@@ -9,18 +9,26 @@
 
 #include <memory>
 
+std::string ArgumentsParser::pathToFile;
+
 void ArgumentsParser::parseArguments(const int argc, char *argv[]) {
     int currentOption;
-    auto longOptions = std::make_unique<option[]>(2);
+    auto longOptions = std::make_unique<option[]>(3);
     longOptions[0] = {"help", no_argument, nullptr, 'h'};
-    longOptions[1] = {nullptr, 0, nullptr, 0}; // Null-terminator
+    longOptions[1] = {"file", required_argument, nullptr, 'f'};
+    longOptions[2] = {nullptr, 0, nullptr, 0};
 
-    while ((currentOption = getopt_long(argc, argv, "h", longOptions.get(), nullptr)) != -1) {
+    while ((currentOption = getopt_long(argc, argv, "hf:", longOptions.get(), nullptr)) != -1) {
         switch (currentOption) {
             case 'h': // help
                 std::cout << "Usage: " << argv[0] << " [options] filename" << std::endl;
                 std::cout << "  -h, --help        Show this help message" << std::endl;
+                std::cout << "  -f, --file        Set .pcap file from where packets will be read" << std::endl;
                 exit(EXIT_SUCCESS);
+
+            case 'f': // read from file
+                pathToFile = optarg;
+                break;
 
             default:
                 std::cout << "Unknown option '" << currentOption << "'. Use -h for help." << std::endl;
@@ -28,8 +36,12 @@ void ArgumentsParser::parseArguments(const int argc, char *argv[]) {
         }
     }
 
-    if (optind == argc) {
-        std::cout << "No .pcap file was provided!" << std::endl;
+    if (pathToFile.empty()) {
+        std::cerr << "No .pcap file path provided. Use -f <filename> or --file=<filename>" << std::endl;
         exit(EXIT_FAILURE);
     }
+}
+
+std::string ArgumentsParser::getPathToFile() {
+    return pathToFile;
 }
